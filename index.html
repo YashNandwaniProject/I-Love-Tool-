@@ -59,6 +59,37 @@
             margin-bottom: 2rem;
         }
 
+/*         hacker Effect */
+        h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        /* KPRverse Hover Effect */
+        .hacker-text {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .hacker-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--primary);
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.4s ease-out;
+        }
+
+        .hacker-text:hover::before {
+            clip-path: inset(0 0 0 0);
+        }
+        
+        /*         hacker Effect */
+
         .hero h2 {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -153,6 +184,13 @@
 </head>
 <body>
     <!-- Header -->
+
+                <h1>
+                    <span class="hacker-text" data-text="Digital">Digital</span><br>
+                    <span class="hacker-text" data-text="Tools">Tools</span><br>
+                    <span style="color: var(--secondary)">for Modern Work</span>
+                </h1>
+    
     <header>
         <h1>Online Tools</h1>
         <p>Your one-stop destination for free online tools</p>
@@ -216,5 +254,29 @@
     <footer>
         <p>&copy; 2023 Online Tools. All rights reserved.</p>
     </footer>
+
+    <script>
+         // KPRverse Hover Effect
+        document.querySelectorAll('.hacker-text').forEach(text => {
+            text.addEventListener('mouseenter', function() {
+                const original = this.dataset.text;
+                let current = original.split('');
+                let iterations = 0;
+
+                const animate = () => {
+                    this.textContent = current.map((char, index) => {
+                        if(index < iterations) return original[index];
+                        return Math.random() > 0.5 ? '0' : '1';
+                    }).join('');
+
+                    if(iterations < original.length) {
+                        iterations += 0.3;
+                        requestAnimationFrame(animate);
+                    }
+                };
+                animate();
+            });
+        });
+    </script>
 </body>
 </html>
